@@ -2,9 +2,9 @@ package modelo;
 
 public class Financiamento {
 
-  private int prazoFinanciamento;
-  private double valorImovel;
-  private double taxaJurosAnual;
+  protected int prazoFinanciamento;
+  protected double valorImovel;
+  protected double taxaJurosAnual;
 
   public Financiamento(double valorImovel, int prazoFinanciamento, double taxaJurosAnual) {
     this.prazoFinanciamento = prazoFinanciamento;

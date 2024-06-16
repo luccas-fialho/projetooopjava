@@ -4,7 +4,10 @@ import util.InterfaceUsuario;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import modelo.Apartamento;
+import modelo.Casa;
 import modelo.Financiamento;
+import modelo.Terreno;
 
 public class Main {
 
@@ -24,11 +27,11 @@ public class Main {
     prazoFinanciamento = usuario.solicitarPrazoDoFinanciamento();
     taxaJurosAnual = usuario.solicitarTaxaDeJuros();
 
-    Financiamento novoFinanciamento = new Financiamento(valorImovel, prazoFinanciamento, taxaJurosAnual);
-    Financiamento novoFinanciamento2 = new Financiamento(300000.0, 5, 0.4);
-    Financiamento novoFinanciamento3 = new Financiamento(150000.0, 7, 0.5);
-    Financiamento novoFinanciamento4 = new Financiamento(250000.0, 10, 0.2);
-
+    Financiamento novoFinanciamento = new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual);
+    Financiamento novoFinanciamento2 = new Casa(300000.0, 5, 0.4);
+    Financiamento novoFinanciamento3 = new Apartamento(150000.0, 7, 0.5);
+    Financiamento novoFinanciamento4 = new Terreno(500000.0, 10, 0.1);
+    
     financiamentos.add(novoFinanciamento);
     financiamentos.add(novoFinanciamento2);
     financiamentos.add(novoFinanciamento3);
