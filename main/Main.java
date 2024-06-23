@@ -27,10 +27,10 @@ public class Main {
     prazoFinanciamento = usuario.solicitarPrazoDoFinanciamento();
     taxaJurosAnual = usuario.solicitarTaxaDeJuros();
 
-    Financiamento novoFinanciamento = new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual);
-    Financiamento novoFinanciamento2 = new Casa(300000.0, 5, 0.4);
-    Financiamento novoFinanciamento3 = new Apartamento(150000.0, 7, 0.5);
-    Financiamento novoFinanciamento4 = new Terreno(500000.0, 10, 0.1);
+    Financiamento novoFinanciamento = new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual, 200.0, 300.0);
+    Financiamento novoFinanciamento2 = new Casa(300000.0, 5, 0.4, 100.0, 200.0);
+    Financiamento novoFinanciamento3 = new Apartamento(150000.0, 7, 0.5, 2, 3);
+    Financiamento novoFinanciamento4 = new Terreno(500000.0, 10, 0.1, "residencial");
     
     financiamentos.add(novoFinanciamento);
     financiamentos.add(novoFinanciamento2);
