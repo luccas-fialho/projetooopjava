@@ -4,6 +4,7 @@ import util.InterfaceUsuario;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import exception.ValoresForaDoRangeException;
 import modelo.Apartamento;
 import modelo.Casa;
 import modelo.Financiamento;
@@ -13,9 +14,9 @@ public class Main {
 
   public static void main(String[] args) {
     InterfaceUsuario usuario = new InterfaceUsuario();
-    double valorImovel;
-    double taxaJurosAnual;
-    int prazoFinanciamento;
+    double valorImovel = 0.0;
+    double taxaJurosAnual = 0.0;
+    int prazoFinanciamento = 0;
     double somaDosFinanciamentos = 0.0;
     double somaDosImoveis = 0.0;
 
@@ -23,9 +24,13 @@ public class Main {
     ArrayList<Financiamento> financiamentos = new ArrayList<>();
 
     System.out.println("Digite os valores do primeiro financiamento");
-    valorImovel = usuario.solicitarValorDoImovel();
-    prazoFinanciamento = usuario.solicitarPrazoDoFinanciamento();
-    taxaJurosAnual = usuario.solicitarTaxaDeJuros();
+    try {
+      valorImovel = usuario.solicitarValorDoImovel();
+      prazoFinanciamento = usuario.solicitarPrazoDoFinanciamento();
+      taxaJurosAnual = usuario.solicitarTaxaDeJuros();
+    } catch (ValoresForaDoRangeException exception) {
+      System.out.println(exception);
+    }
 
     Financiamento novoFinanciamento = new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual, 200.0, 300.0);
     Financiamento novoFinanciamento2 = new Casa(300000.0, 5, 0.4, 100.0, 200.0);
@@ -44,7 +49,7 @@ public class Main {
           + String.format("%.0f", financiamentos.get(i).getValorImovel())
           + ", valor do financiamento: R$ " + String.format("%.0f", financiamentos.get(i).calcularTotalDoPagamento()));
     }
-
+    
     System.out.println("Total de todos os imóveis: R$ " + String.format("%.0f", somaDosImoveis)
         + ", total de todos os financiamentos: R$ " + String.format("%.0f", somaDosFinanciamentos));
 
