@@ -21,18 +21,20 @@ import modelo.Financiamento;
 import modelo.Terreno;
 
 public class Main {
-  public static void escreverCaracteres(String texto) {
+  public static void escreverCaracteres(ArrayList<Financiamento> financiamentos) {
     FileWriter out = null;
-    int contLetra = 0;
     try {
-      out = new FileWriter("financiamentosTexto.txt", true);
-      while (contLetra < texto.length()) {
-        out.write(texto.charAt(contLetra));// escreve caractere a caractere
-        contLetra++;
+      out = new FileWriter("financiamentosTexto.txt");
+      for (Financiamento financiamento : financiamentos) {
+        int contLetra = 0;
+        while (contLetra < financiamento.toString().length()) {
+          out.write(financiamento.toString().charAt(contLetra));
+          contLetra++;
+        } 
       }
-      out.close(); // fecha arquivo de saída
+      out.close(); 
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println("nenhum arquivo para escrever encontrado!");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -43,11 +45,12 @@ public class Main {
     try {
       in = new FileReader("financiamentosTexto.txt");
       int c;
-      while ((c = in.read()) != -1) // escreve caractere a caractere; -1 = EOF
-        System.out.print((char) c);// imprime como caractere
-      in.close(); // fecha arquivo de entrada
+      System.out.println("Financiamentos recuperados do arquivo .txt: ");
+      while ((c = in.read()) != -1) 
+        System.out.print((char) c);
+      in.close(); 
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println("Nenhum arquivo de .txt encontrado!");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -72,25 +75,27 @@ public class Main {
     }
   }
 
-  public static void leFinanciamentos(String filename) {
+  public static ArrayList<Financiamento> leFinanciamentos(String filename) {
     ObjectInputStream inputStream = null;
+    ArrayList<Financiamento> financiamentos = new ArrayList<>();
     try {
       inputStream = new ObjectInputStream(new FileInputStream(filename));
       Object obj = null;
       while ((obj = inputStream.readObject()) != null) {
-        if (obj instanceof Financiamento) // le um objeto genérico
-          System.out.println(((Financiamento) obj).toString()); // cast para Financiamento
+        if (obj instanceof Financiamento) 
+          financiamentos.add(((Financiamento) obj));
       }
       inputStream.close();
-    } catch (EOFException ex) { // quando EOF (End Of File) é alçancado
+    } catch (EOFException ex) { 
       System.out.println("Fim de arquivo alcançado.");
     } catch (ClassNotFoundException ex) {
       ex.printStackTrace();
     } catch (FileNotFoundException ex) {
-      ex.printStackTrace();
+      System.out.println("Nenhum arquivo serializado encontrado!");
     } catch (IOException ex) {
       ex.printStackTrace();
     }
+    return financiamentos;
   }
 
   public static void main(String[] args) {
@@ -102,7 +107,14 @@ public class Main {
     double somaDosImoveis = 0.0;
 
     Scanner scanner = new Scanner(System.in);
-    ArrayList<Financiamento> financiamentos = new ArrayList<>();
+    ArrayList<Financiamento> financiamentos = leFinanciamentos("financiamentosSerializados.ser");
+
+    if (!financiamentos.isEmpty()) {
+      System.out.println("Financiamentos recuperados do arquivo serializado: ");
+      for (Financiamento financiamento : financiamentos) {
+        System.out.println(financiamento.toString());
+      }
+    }
 
     System.out.println("Digite os valores do primeiro financiamento");
     try {
@@ -126,14 +138,12 @@ public class Main {
     for (Financiamento financiamento : financiamentos) {
       somaDosImoveis += financiamento.getValorImovel();
       somaDosFinanciamentos += financiamento.calcularTotalDoPagamento();
-      escreverCaracteres(financiamento.toString());
     }
-
-    System.out.println("\nRecuperando dados do arquivo de texto .txt: ");
-    lerCaracteres();
+    
+    escreverCaracteres(financiamentos);
     escreveFinanciamentos("financiamentosSerializados.ser", financiamentos);
-    System.out.println("\nRecuperando dados dos objetos financiamento serializados: ");
-    leFinanciamentos("financiamentosSerializados.ser");
+
+    lerCaracteres();
 
     System.out.println("Total de todos os imóveis: R$ " + String.format("%.0f", somaDosImoveis)
         + ", total de todos os financiamentos: R$ " + String.format("%.0f", somaDosFinanciamentos));
