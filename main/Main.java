@@ -21,7 +21,7 @@ import modelo.Financiamento;
 import modelo.Terreno;
 
 public class Main {
-  public static void escreverCaracteres(ArrayList<Financiamento> financiamentos) {
+  public static void escreverEmTxt(ArrayList<Financiamento> financiamentos) {
     FileWriter out = null;
     try {
       out = new FileWriter("financiamentosTexto.txt");
@@ -40,7 +40,7 @@ public class Main {
     }
   }
 
-  public static void lerCaracteres() {
+  public static void lerTxt() {
     FileReader in = null;
     try {
       in = new FileReader("financiamentosTexto.txt");
@@ -56,7 +56,7 @@ public class Main {
     }
   }
 
-  public static void escreveFinanciamentos(String filename, ArrayList<Financiamento> arrayList) {
+  public static void escreverFinanciamentos(String filename, ArrayList<Financiamento> arrayList) {
     ObjectOutputStream outputStream = null;
     try {
       outputStream = new ObjectOutputStream(new FileOutputStream(filename));
@@ -140,10 +140,10 @@ public class Main {
       somaDosFinanciamentos += financiamento.calcularTotalDoPagamento();
     }
     
-    escreverCaracteres(financiamentos);
-    escreveFinanciamentos("financiamentosSerializados.ser", financiamentos);
+    escreverEmTxt(financiamentos);
+    escreverFinanciamentos("financiamentosSerializados.ser", financiamentos);
 
-    lerCaracteres();
+    lerTxt();
 
     System.out.println("Total de todos os imóveis: R$ " + String.format("%.0f", somaDosImoveis)
         + ", total de todos os financiamentos: R$ " + String.format("%.0f", somaDosFinanciamentos));
